@@ -146,10 +146,12 @@ function RAPLUpdateStars(unit, source)
 
 
 
-		if RAPLTAB[name].comment then
-			RAPLFrame.Comment:SetText( RAPLTAB[name].comment )
-		else
-			RAPLFrame.Comment:SetText( "" )
+		if RAPLTAB[name] then
+			if RAPLTAB[name].comment then
+				RAPLFrame.Comment:SetText( RAPLTAB[name].comment )
+			else
+				RAPLFrame.Comment:SetText( "" )
+			end
 		end
 
 
@@ -319,13 +321,15 @@ function InitRatePlayer()
 	RAPLFrame.Comment:SetScript( "OnEnterPressed", function( self )
 		self:ClearFocus()
 	end )
+	RAPLFrame.Comment.text = ""
 	RAPLFrame.Comment:SetScript( "OnTextChanged", function( self )
 		if loaded then
 			local text = self:GetText()
 			local name = RAPLUnitName( "TARGET" )
 			if name then
 				RAPLCheckEntry(name)
-				if RAPLTAB[name] and RAPLTAB[name].comment ~= text then
+				if RAPLTAB[name] and RAPLTAB[name].comment ~= text and self.text ~= text then
+					self.text = text
 					RAPLTAB[name].comment = text
 				end
 			end
