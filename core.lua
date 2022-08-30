@@ -158,14 +158,14 @@ function RAPLUpdateStars(unit, source)
 			local star = RAPLFrame.starsown[i]
 			if RAPLTAB[name].ratingown and RAPLTAB[name].ratingown > 0 then
 				if i <= RAPLTAB[name].ratingown then
-					star.texture:SetTexture("Interface\\AddOns\\D4KiR RatePlayer\\media\\star_full")
+					star.texture:SetTexture("Interface\\AddOns\\RatePlayer\\media\\star_full")
 					star.texture:SetVertexColor(0, 1, 0)
 				else
-					star.texture:SetTexture("Interface\\AddOns\\D4KiR RatePlayer\\media\\star_border")
+					star.texture:SetTexture("Interface\\AddOns\\RatePlayer\\media\\star_border")
 					star.texture:SetVertexColor(1, 0, 0)
 				end
 			else
-				star.texture:SetTexture("Interface\\AddOns\\D4KiR RatePlayer\\media\\star_border")
+				star.texture:SetTexture("Interface\\AddOns\\RatePlayer\\media\\star_border")
 				star.texture:SetVertexColor(0.75, 0.75, 0.75)
 			end
 		end
@@ -186,14 +186,14 @@ function RAPLUpdateStars(unit, source)
 
 				if RAPLTAB[name].ratinggrp and RAPLTAB[name].ratinggrp > 0 then
 					if i <= RAPLTAB[name].ratinggrp then
-						star.texture:SetTexture("Interface\\AddOns\\D4KiR RatePlayer\\media\\star_full")
+						star.texture:SetTexture("Interface\\AddOns\\RatePlayer\\media\\star_full")
 						star.texture:SetVertexColor(0, 1, 0)
 					else
-						star.texture:SetTexture("Interface\\AddOns\\D4KiR RatePlayer\\media\\star_border")
+						star.texture:SetTexture("Interface\\AddOns\\RatePlayer\\media\\star_border")
 						star.texture:SetVertexColor(1, 0, 0)
 					end
 				else
-					star.texture:SetTexture("Interface\\AddOns\\D4KiR RatePlayer\\media\\star_border")
+					star.texture:SetTexture("Interface\\AddOns\\RatePlayer\\media\\star_border")
 					star.texture:SetVertexColor(0.2, 0.2, 0.2)
 				end
 			end
@@ -242,14 +242,14 @@ function RAPLUpdateStars(unit, source)
 			star:Show()
 			if RAPLTAB[name].ratingcom and RAPLTAB[name].ratingcom > 0 then
 				if i <= RAPLTAB[name].ratingcom then
-					star.texture:SetTexture("Interface\\AddOns\\D4KiR RatePlayer\\media\\star_full")
+					star.texture:SetTexture("Interface\\AddOns\\RatePlayer\\media\\star_full")
 					star.texture:SetVertexColor(0, 1, 0)
 				else
-					star.texture:SetTexture("Interface\\AddOns\\D4KiR RatePlayer\\media\\star_border")
+					star.texture:SetTexture("Interface\\AddOns\\RatePlayer\\media\\star_border")
 					star.texture:SetVertexColor(1, 0, 0)
 				end
 			else
-				star.texture:SetTexture("Interface\\AddOns\\D4KiR RatePlayer\\media\\star_border")
+				star.texture:SetTexture("Interface\\AddOns\\RatePlayer\\media\\star_border")
 				star.texture:SetVertexColor(0.2, 0.2, 0.2)
 			end
 		end
@@ -301,7 +301,7 @@ function InitRatePlayer()
 	end
 
 	RAPLFrame.texture = RAPLFrame:CreateTexture("BACKGROUND")
-	RAPLFrame.texture:SetTexture("Interface\\AddOns\\D4KiR RatePlayer\\media\\check_circle")
+	RAPLFrame.texture:SetTexture("Interface\\AddOns\\RatePlayer\\media\\check_circle")
 	RAPLFrame.texture:SetSize(iconsize, iconsize)
 	RAPLFrame.texture:SetPoint("BOTTOM", RAPLFrame, "TOP", 0, 0)
 	RAPLFrame.texture:SetVertexColor(1, 0, 0)
@@ -344,7 +344,7 @@ function InitRatePlayer()
 
 		star.texture = star:CreateTexture("BACKGROUND")
 		star.texture:SetAllPoints(star)
-		star.texture:SetTexture("Interface\\AddOns\\D4KiR RatePlayer\\media\\star_border")
+		star.texture:SetTexture("Interface\\AddOns\\RatePlayer\\media\\star_border")
 		star.texture:SetVertexColor(1, 0, 0)
 
 		star:SetScript("OnClick", function(self, ...)
@@ -380,7 +380,7 @@ function InitRatePlayer()
 
 		star.texture = star:CreateTexture("BACKGROUND")
 		star.texture:SetAllPoints(star)
-		star.texture:SetTexture("Interface\\AddOns\\D4KiR RatePlayer\\media\\star_border")
+		star.texture:SetTexture("Interface\\AddOns\\RatePlayer\\media\\star_border")
 		star.texture:SetVertexColor(1, 0, 0)
 	end
 
@@ -397,7 +397,7 @@ function InitRatePlayer()
 	RAPLFrame.countgrp = RAPLFrame:CreateTexture("BACKGROUND")
 	RAPLFrame.countgrp:SetSize(iconsize, iconsize)
 	RAPLFrame.countgrp:SetPoint("LEFT", RAPLFrame, "TOPLEFT", iconsize * 7, -iconsize * 2.5)
-	RAPLFrame.countgrp:SetTexture("Interface\\AddOns\\D4KiR RatePlayer\\media\\group")
+	RAPLFrame.countgrp:SetTexture("Interface\\AddOns\\RatePlayer\\media\\group")
 	RAPLFrame.countgrp:SetVertexColor(0.2, 0.2, 1)
 
 	RAPLFrame.textcountgrp = RAPLFrame:CreateFontString(nil, "ARTWORK")
@@ -419,7 +419,7 @@ function InitRatePlayer()
 
 		star.texture = star:CreateTexture("BACKGROUND")
 		star.texture:SetAllPoints(star)
-		star.texture:SetTexture("Interface\\AddOns\\D4KiR RatePlayer\\media\\star_border")
+		star.texture:SetTexture("Interface\\AddOns\\RatePlayer\\media\\star_border")
 		star.texture:SetVertexColor(1, 0, 0)
 	end
 
@@ -436,7 +436,7 @@ function InitRatePlayer()
 	RAPLFrame.countcom = RAPLFrame:CreateTexture("BACKGROUND")
 	RAPLFrame.countcom:SetSize(iconsize, iconsize)
 	RAPLFrame.countcom:SetPoint("LEFT", RAPLFrame, "TOPLEFT", iconsize * 7, -iconsize * 3.5)
-	RAPLFrame.countcom:SetTexture("Interface\\AddOns\\D4KiR RatePlayer\\media\\group")
+	RAPLFrame.countcom:SetTexture("Interface\\AddOns\\RatePlayer\\media\\group")
 	RAPLFrame.countcom:SetVertexColor(0.2, 0.2, 1)
 
 	RAPLFrame.textcountcom = RAPLFrame:CreateFontString(nil, "ARTWORK")
@@ -452,26 +452,26 @@ function RAPLBuildRating(name, scut, isize)
 	if scut == "own" and RAPLTAB[name].ratingown then
 		for i = 1, 5 do
 			if i <= RAPLTAB[name].ratingown then
-				rating = rating .. "|T".."Interface\\Addons\\D4KiR RatePlayer\\media\\star_full_green:" .. isize .. ":" .. isize .. ":0:0|t"
+				rating = rating .. "|T".."Interface\\Addons\\RatePlayer\\media\\star_full_green:" .. isize .. ":" .. isize .. ":0:0|t"
 			else
-				rating = rating .. "|T".."Interface\\Addons\\D4KiR RatePlayer\\media\\star_border_red:" .. isize .. ":" .. isize .. ":0:0|t"
+				rating = rating .. "|T".."Interface\\Addons\\RatePlayer\\media\\star_border_red:" .. isize .. ":" .. isize .. ":0:0|t"
 			end
 		end
 	elseif scut == "grp" and RAPLTAB[name].ratinggrp then
 		for i = 1, 5 do
 			if i <= RAPLTAB[name].ratinggrp then
-				rating = rating .. "|T".."Interface\\Addons\\D4KiR RatePlayer\\media\\star_full_green:" .. isize .. ":" .. isize .. ":0:0|t"
+				rating = rating .. "|T".."Interface\\Addons\\RatePlayer\\media\\star_full_green:" .. isize .. ":" .. isize .. ":0:0|t"
 			else
-				rating = rating .. "|T".."Interface\\Addons\\D4KiR RatePlayer\\media\\star_border_red:" .. isize .. ":" .. isize .. ":0:0|t"
+				rating = rating .. "|T".."Interface\\Addons\\RatePlayer\\media\\star_border_red:" .. isize .. ":" .. isize .. ":0:0|t"
 			end
 		end
 		rating = rating .. " (" .. string.format("%.1f", RAPLTAB[name].ratinggrp) .. ") [" .. RAPLTAB[name].countgrp .. "]"
 	elseif scut == "com" and RAPLTAB[name].ratingcom then
 		for i = 1, 5 do
 			if i <= RAPLTAB[name].ratingcom then
-				rating = rating .. "|T".."Interface\\Addons\\D4KiR RatePlayer\\media\\star_full_green:" .. isize .. ":" .. isize .. ":0:0|t"
+				rating = rating .. "|T".."Interface\\Addons\\RatePlayer\\media\\star_full_green:" .. isize .. ":" .. isize .. ":0:0|t"
 			else
-				rating = rating .. "|T".."Interface\\Addons\\D4KiR RatePlayer\\media\\star_border_red:" .. isize .. ":" .. isize .. ":0:0|t"
+				rating = rating .. "|T".."Interface\\Addons\\RatePlayer\\media\\star_border_red:" .. isize .. ":" .. isize .. ":0:0|t"
 			end
 		end
 		rating = rating .. " (" .. string.format("%.1f", RAPLTAB[name].ratingcom) .. ") [" .. RAPLTAB[name].countcom .. "]"
@@ -507,9 +507,9 @@ function UnitRating(name, scut, isize)
 		rating = string.format("%.1f", RAPLTAB[name].ratingcom)
 	end
 	if rating ~= "" then
-		rating = rating .. "|cFF00FF00|T".."Interface\\Addons\\D4KiR RatePlayer\\media\\star_full_green:" .. isize .. ":" .. isize .. ":0:0|t"
+		rating = rating .. "|cFF00FF00|T".."Interface\\Addons\\RatePlayer\\media\\star_full_green:" .. isize .. ":" .. isize .. ":0:0|t"
 	else
-		rating = rating .. "|cFF333333N/A|T".."Interface\\Addons\\D4KiR RatePlayer\\media\\star_border_grey:" .. isize .. ":" .. isize .. ":0:0|t"
+		rating = rating .. "|cFF333333N/A|T".."Interface\\Addons\\RatePlayer\\media\\star_border_grey:" .. isize .. ":" .. isize .. ":0:0|t"
 	end
 	rating = rating .. "|r"
 	return rating
