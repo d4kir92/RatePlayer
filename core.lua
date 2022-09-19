@@ -33,11 +33,6 @@ function RAPLCalculateGRP(name)
 
 	local rating = 0
 	local count = 0
-
-	--[[if RAPLTAB[name].ratingown and RAPLTAB[name].ratingown > 0 then
-		rating = rating + RAPLTAB[name].ratingown
-		count = count + 1
-	end]]
 	
 	if RAPLTAB and RAPLTAB[name].ratingscom then
 		for i = 1, 4 do
@@ -69,11 +64,6 @@ function RAPLCalculateCOM(name)
 	local rating = 0
 	local count = 0
 
-	--[[if RAPLTAB[name].ratingown and RAPLTAB[name].ratingown > 0 then
-		rating = rating + RAPLTAB[name].ratingown
-		count = count + 1
-	end]]
-
 	if RAPLTAB and RAPLTAB[name].ratingscom then
 		for i, v in pairs(RAPLTAB[name].ratingscom) do
 			if v and v > 0 then
@@ -94,48 +84,16 @@ function RAPLCalculateCOM(name)
 	end
 end
 
+local br = 10
 function RAPLUpdateStars(unit, source)
 	if UnitExists(unit) and UnitIsPlayer(unit) then
 		RAPLFrame:Show()
-		
+	
 
 
 		local name = RAPLUnitName(unit)
 		RAPLCheckEntry(name)
-
-
-
-		if ElvUF_Target then
-			local left, bottom, width, height = ElvUF_Target:GetRect()
-			RAPLFrame:SetParent( ElvUF_Target )
-			if bottom < GetScreenHeight() / 2 then -- Lowerscreen
-				RAPLFrame:ClearAllPoints()
-				RAPLFrame:SetPoint("BOTTOM", ElvUF_Target, "TOP", 0, 60)
-			else -- Upperscreen
-				RAPLFrame:ClearAllPoints()
-				RAPLFrame:SetPoint("TOP", ElvUF_Target, "BOTTOM", 0, -22)
-			end
-		elseif PitBull4_Frames_Ziel then
-			local left, bottom, width, height = PitBull4_Frames_Ziel:GetRect()
-			RAPLFrame:SetParent( PitBull4_Frames_Ziel )
-			if bottom < GetScreenHeight() / 2 then -- Lowerscreen
-				RAPLFrame:ClearAllPoints()
-				RAPLFrame:SetPoint("BOTTOM", PitBull4_Frames_Ziel, "TOP", 0, 22)
-			else -- Upperscreen
-				RAPLFrame:ClearAllPoints()
-				RAPLFrame:SetPoint("TOP", PitBull4_Frames_Ziel, "BOTTOM", 0, -52)
-			end
-		elseif TargetFrameTextureFrameName then
-			local left, bottom, width, height = TargetFrame:GetRect()
-			if bottom < GetScreenHeight() / 2 then -- Lowerscreen
-				RAPLFrame:ClearAllPoints()
-				RAPLFrame:SetPoint("BOTTOM", TargetFrameTextureFrameName, "TOP", 0, 12)
-			else -- Upperscreen
-				RAPLFrame:ClearAllPoints()
-				RAPLFrame:SetPoint("TOP", TargetFrameTextureFrameName, "BOTTOM", 0, -126)
-			end
-		end
-			
+		
 
 
 		if RAPLTAB[name].has then
@@ -224,24 +182,23 @@ function RAPLUpdateStars(unit, source)
 
 
 
-		local y = 2
+		local y = 3
 		if not IsInGroup() then
-			y = 1
+			y = 2
 		end
 		y = y + 1
 		for i = 1, 5 do
 			local star = RAPLFrame.starscom[i]
-			star:SetPoint("TOPLEFT", RAPLFrame, "TOPLEFT", (i-1) * iconsize, -iconsize * y)
+			star:SetPoint( "TOPLEFT", RAPLFrame, "TOPLEFT", (i+2.5) * iconsize, - iconsize * y )
 		end
-		RAPLFrame.textheadercom:SetPoint("CENTER", RAPLFrame, "TOPLEFT", iconsize * 5.5, -iconsize * (y + 0.5))
-		RAPLFrame.textratingcom:SetPoint("CENTER", RAPLFrame, "TOPLEFT", iconsize * 5.5, -iconsize * (y + 0.5))
-		RAPLFrame.countcom:SetPoint("LEFT", RAPLFrame, "TOPLEFT", iconsize * 7, -iconsize * (y + 0.5))
-		RAPLFrame.textcountcom:SetPoint("CENTER", RAPLFrame, "TOPLEFT", iconsize * 8.5, -iconsize * (y + 0.5))
+		RAPLFrame.textheadercom:SetPoint( "RIGHT", RAPLFrame, "TOPLEFT", iconsize * 3.5, -iconsize * (y + 0.5) )
+		RAPLFrame.textratingcom:SetPoint( "CENTER", RAPLFrame, "TOPLEFT", iconsize * 9, -iconsize * (y + 0.5) )
+		RAPLFrame.countcom:SetPoint( "LEFT", RAPLFrame, "TOPLEFT", iconsize * 10, -iconsize * (y + 0.5) )
+		RAPLFrame.textcountcom:SetPoint( "LEFT", RAPLFrame, "TOPLEFT", iconsize * 11.5, -iconsize * (y + 0.5) )
 
 		RAPLCalculateCOM(name)
 		for i = 1, 5 do
 			local star = RAPLFrame.starscom[i]
-			star:Show()
 			if RAPLTAB[name].ratingcom and RAPLTAB[name].ratingcom > 0 then
 				if i <= RAPLTAB[name].ratingcom then
 					star.texture:SetTexture("Interface\\AddOns\\RatePlayer\\media\\star_full")
@@ -255,29 +212,12 @@ function RAPLUpdateStars(unit, source)
 				star.texture:SetVertexColor(0.2, 0.2, 0.2)
 			end
 		end
-		if RAPLTAB[name].ratingcom and RAPLTAB[name].ratingcom > 0 then
-			RAPLFrame.textratingcom:SetText(string.format("%.1f", RAPLTAB[name].ratingcom))
-		else
-			RAPLFrame.textratingcom:SetText("")
-		end
 		if RAPLTAB[name].countcom and RAPLTAB[name].countcom > 0 then
-			RAPLFrame.textheadercom:SetText(string.sub(CLUB_FINDER_COMMUNITY_TYPE, 1, 3) .. ".")
-			RAPLFrame.countcom:Show()
 			RAPLFrame.textcountcom:SetText(RAPLTAB[name].countcom)
 		else
-			for i = 1, 5 do
-				local star = RAPLFrame.starscom[i]
-				star:Hide()
-			end
-			RAPLFrame.textheadercom:SetText("")
-			RAPLFrame.countcom:Hide()
-			RAPLFrame.textcountcom:SetText("")
+			RAPLFrame.textcountcom:SetText("0")
 			y = y - 1
 		end
-
-
-
-		RAPLFrame:SetSize(iconsize * 5, iconsize * (y + 1))
 	else
 		RAPLFrame:Hide()
 	end
@@ -292,27 +232,56 @@ function InitRatePlayer()
 		CLUB_FINDER_COMMUNITY_TYPE = "Community"
 	end
 
-	RAPLFrame = CreateFrame("FRAME", "RatePlayer", TargetFrame)
-	RAPLFrame:SetSize( iconsize * 5, iconsize * 4 )
-	RAPLFrame:SetPoint("BOTTOM", TargetFrame, "TOP", 0, 0)
+	RAPLFrame = CreateFrame( "FRAME", "RatePlayer", UIParent )
+	RAPLFrame:SetSize( iconsize * 12, iconsize * 5 )
+	RAPLFrame:SetPoint( "TOPLEFT", UIParent, "TOPLEFT", 100,-100 )
 
-	if false then
-		RAPLFrame.bg = RAPLFrame:CreateTexture("BACKGROUND")
-		RAPLFrame.bg:SetAllPoints( RAPLFrame )
-		RAPLFrame.bg:SetColorTexture( 1, 0, 0, 0.75 )
+	RAPLFrame:SetClampedToScreen( true )
+	RAPLFrame:SetMovable( true )
+	RAPLFrame:EnableMouse( true )
+	RAPLFrame:RegisterForDrag( "LeftButton" )
+	RAPLFrame:SetScript( "OnDragStart", RAPLFrame.StartMoving )
+	RAPLFrame:SetScript( "OnDragStop", function()
+		RAPLFrame:StopMovingOrSizing()
+
+		local p1, p2, p3, p4, p5 = RAPLFrame:GetPoint()
+		RAPLTAB["RAPLFrame.p1"] = p1
+		RAPLTAB["RAPLFrame.p2"] = p2
+		RAPLTAB["RAPLFrame.p3"] = p3
+		RAPLTAB["RAPLFrame.p4"] = p4
+		RAPLTAB["RAPLFrame.p5"] = p5
+	end )
+	
+	if RAPLTAB["RAPLFrame.p1"] then
+		local p1 = RAPLTAB["RAPLFrame.p1"]
+		local p2 = RAPLTAB["RAPLFrame.p2"]
+		local p3 = RAPLTAB["RAPLFrame.p3"]
+		local p4 = RAPLTAB["RAPLFrame.p4"]
+		local p5 = RAPLTAB["RAPLFrame.p5"]
+
+		RAPLFrame:ClearAllPoints()
+		RAPLFrame:SetPoint( p1, p2, p3, p4, p5 )
+	else
+		RAPLFrame:SetPoint( "TOPLEFT", UIParent, "TOPLEFT", 100,-100 )
 	end
 
-	RAPLFrame.texture = RAPLFrame:CreateTexture("BACKGROUND")
-	RAPLFrame.texture:SetTexture("Interface\\AddOns\\RatePlayer\\media\\check_circle")
-	RAPLFrame.texture:SetSize(iconsize, iconsize)
-	RAPLFrame.texture:SetPoint("BOTTOM", RAPLFrame, "TOP", 0, 0)
-	RAPLFrame.texture:SetVertexColor(1, 0, 0)
+	if true then
+		RAPLFrame.bg = RAPLFrame:CreateTexture( "RAPLFRAME.bg", "BACKGROUND" )
+		RAPLFrame.bg:SetAllPoints( RAPLFrame )
+		RAPLFrame.bg:SetColorTexture( 0, 0, 0, 0.25 )
+	end
+
+	RAPLFrame.texture = RAPLFrame:CreateTexture( "RAPLFRAME.texture", "BACKGROUND" )
+	RAPLFrame.texture:SetTexture( "Interface\\AddOns\\RatePlayer\\media\\check_circle" )
+	RAPLFrame.texture:SetSize( iconsize, iconsize )
+	RAPLFrame.texture:SetPoint( "TOP", RAPLFrame, "TOP", 0, 0 )
+	RAPLFrame.texture:SetVertexColor( 1, 0, 0 )
 
 
 
-	RAPLFrame.Comment = CreateFrame("EditBox", nil, RAPLFrame, "InputBoxTemplate")
-	RAPLFrame.Comment:SetPoint( "TOP", RAPLFrame, "TOP", 3, 0 )
-	RAPLFrame.Comment:SetWidth( iconsize * 5 * 2 )
+	RAPLFrame.Comment = CreateFrame( "EditBox", nil, RAPLFrame, "InputBoxTemplate" )
+	RAPLFrame.Comment:SetPoint( "TOP", RAPLFrame, "TOP", 3, -iconsize )
+	RAPLFrame.Comment:SetWidth( iconsize * 12 - 8 )
 	RAPLFrame.Comment:SetHeight( iconsize )
 	RAPLFrame.Comment:SetMovable( false )
 	RAPLFrame.Comment:SetAutoFocus( false )
@@ -344,9 +313,9 @@ function InitRatePlayer()
 		star.rating = i
 
 		star:SetSize(iconsize, iconsize)
-		star:SetPoint("TOPLEFT", RAPLFrame, "TOPLEFT", (i-1) * iconsize, -iconsize)
+		star:SetPoint("TOPLEFT", RAPLFrame, "TOPLEFT", (i+2.5) * iconsize, -2 * iconsize)
 
-		star.texture = star:CreateTexture("BACKGROUND")
+		star.texture = star:CreateTexture( "starown.texture", "BACKGROUND" )
 		star.texture:SetAllPoints(star)
 		star.texture:SetTexture("Interface\\AddOns\\RatePlayer\\media\\star_border")
 		star.texture:SetVertexColor(1, 0, 0)
@@ -367,7 +336,7 @@ function InitRatePlayer()
 
 	RAPLFrame.textratingown = RAPLFrame:CreateFontString(nil, "ARTWORK")
 	RAPLFrame.textratingown:SetFont(STANDARD_TEXT_FONT, 10, "")
-	RAPLFrame.textratingown:SetPoint("CENTER", RAPLFrame, "TOPLEFT", iconsize * 5.5, -iconsize * 1.5)
+	RAPLFrame.textratingown:SetPoint("CENTER", RAPLFrame, "TOPLEFT", iconsize * 9, -iconsize * 2.5)
 	RAPLFrame.textratingown:SetText(0)
 
 
@@ -380,9 +349,9 @@ function InitRatePlayer()
 		star.rating = i
 
 		star:SetSize(iconsize, iconsize)
-		star:SetPoint("TOPLEFT", RAPLFrame, "TOPLEFT", (i-1) * iconsize, -2 * iconsize)
+		star:SetPoint("TOPLEFT", RAPLFrame, "TOPLEFT", (i+2.5) * iconsize, -3 * iconsize)
 
-		star.texture = star:CreateTexture("BACKGROUND")
+		star.texture = star:CreateTexture( "stargrp.texture", "BACKGROUND" )
 		star.texture:SetAllPoints(star)
 		star.texture:SetTexture("Interface\\AddOns\\RatePlayer\\media\\star_border")
 		star.texture:SetVertexColor(1, 0, 0)
@@ -390,24 +359,24 @@ function InitRatePlayer()
 
 	RAPLFrame.textheadergrp = RAPLFrame:CreateFontString(nil, "ARTWORK")
 	RAPLFrame.textheadergrp:SetFont(STANDARD_TEXT_FONT, 10, "")
-	RAPLFrame.textheadergrp:SetPoint("RIGHT", RAPLFrame, "TOPLEFT", -iconsize * 0.5, -iconsize * 2.5)
+	RAPLFrame.textheadergrp:SetPoint("RIGHT", RAPLFrame, "TOPLEFT", iconsize * 3.5, -iconsize * 3.5)
 	RAPLFrame.textheadergrp:SetText(string.sub(CHAT_MSG_PARTY, 1, 3) .. ".")
 
 	RAPLFrame.textratinggrp = RAPLFrame:CreateFontString(nil, "ARTWORK")
 	RAPLFrame.textratinggrp:SetFont(STANDARD_TEXT_FONT, 10, "")
-	RAPLFrame.textratinggrp:SetPoint("CENTER", RAPLFrame, "TOPLEFT", iconsize * 5.5, -iconsize * 2.5)
-	RAPLFrame.textratinggrp:SetText(0)
+	RAPLFrame.textratinggrp:SetPoint("CENTER", RAPLFrame, "TOPLEFT", iconsize * 9, -iconsize * 3.5)
+	RAPLFrame.textratinggrp:SetText("")
 
-	RAPLFrame.countgrp = RAPLFrame:CreateTexture("BACKGROUND")
+	RAPLFrame.countgrp = RAPLFrame:CreateTexture( "countgrp.texture", "BACKGROUND" )
 	RAPLFrame.countgrp:SetSize(iconsize, iconsize)
-	RAPLFrame.countgrp:SetPoint("LEFT", RAPLFrame, "TOPLEFT", iconsize * 7, -iconsize * 2.5)
+	RAPLFrame.countgrp:SetPoint("LEFT", RAPLFrame, "TOPLEFT", iconsize * 10, -iconsize * 3.5)
 	RAPLFrame.countgrp:SetTexture("Interface\\AddOns\\RatePlayer\\media\\group")
 	RAPLFrame.countgrp:SetVertexColor(0.2, 0.2, 1)
 
 	RAPLFrame.textcountgrp = RAPLFrame:CreateFontString(nil, "ARTWORK")
 	RAPLFrame.textcountgrp:SetFont(STANDARD_TEXT_FONT, 10, "")
-	RAPLFrame.textcountgrp:SetPoint("CENTER", RAPLFrame, "TOPLEFT", iconsize * 8.5, -iconsize * 2.5)
-	RAPLFrame.textcountgrp:SetText(0)
+	RAPLFrame.textcountgrp:SetPoint("LEFT", RAPLFrame, "TOPLEFT", iconsize * 11.5, -iconsize * 3.5)
+	RAPLFrame.textcountgrp:SetText("")
 
 
 
@@ -419,9 +388,9 @@ function InitRatePlayer()
 		star.rating = i
 
 		star:SetSize(iconsize, iconsize)
-		star:SetPoint("TOPLEFT", RAPLFrame, "TOPLEFT", (i-1) * iconsize, -iconsize * 2)
+		star:SetPoint("TOPLEFT", RAPLFrame, "TOPLEFT", (i+2.5) * iconsize, -4 * iconsize)
 
-		star.texture = star:CreateTexture("BACKGROUND")
+		star.texture = star:CreateTexture( "starcom.texture", "BACKGROUND" )
 		star.texture:SetAllPoints(star)
 		star.texture:SetTexture("Interface\\AddOns\\RatePlayer\\media\\star_border")
 		star.texture:SetVertexColor(1, 0, 0)
@@ -429,24 +398,20 @@ function InitRatePlayer()
 
 	RAPLFrame.textheadercom = RAPLFrame:CreateFontString(nil, "ARTWORK")
 	RAPLFrame.textheadercom:SetFont(STANDARD_TEXT_FONT, 10, "")
-	RAPLFrame.textheadercom:SetPoint("RIGHT", RAPLFrame, "TOPLEFT", -iconsize * 0.5, -iconsize * 3.5)
 	RAPLFrame.textheadercom:SetText(string.sub(CLUB_FINDER_COMMUNITY_TYPE, 1, 3) .. ".")
 
 	RAPLFrame.textratingcom = RAPLFrame:CreateFontString(nil, "ARTWORK")
 	RAPLFrame.textratingcom:SetFont(STANDARD_TEXT_FONT, 10, "")
-	RAPLFrame.textratingcom:SetPoint("CENTER", RAPLFrame, "TOPLEFT", iconsize * 5.5, -iconsize * 3.5)
-	RAPLFrame.textratingcom:SetText(0)
+	RAPLFrame.textratingcom:SetText("")
 
-	RAPLFrame.countcom = RAPLFrame:CreateTexture("BACKGROUND")
+	RAPLFrame.countcom = RAPLFrame:CreateTexture( "countcom.texture", "BACKGROUND" )
 	RAPLFrame.countcom:SetSize(iconsize, iconsize)
-	RAPLFrame.countcom:SetPoint("LEFT", RAPLFrame, "TOPLEFT", iconsize * 7, -iconsize * 3.5)
 	RAPLFrame.countcom:SetTexture("Interface\\AddOns\\RatePlayer\\media\\group")
 	RAPLFrame.countcom:SetVertexColor(0.2, 0.2, 1)
 
 	RAPLFrame.textcountcom = RAPLFrame:CreateFontString(nil, "ARTWORK")
 	RAPLFrame.textcountcom:SetFont(STANDARD_TEXT_FONT, 10, "")
-	RAPLFrame.textcountcom:SetPoint("CENTER", RAPLFrame, "TOPLEFT", iconsize * 8.5, -iconsize * 3.5)
-	RAPLFrame.textcountcom:SetText(0)
+	RAPLFrame.textcountcom:SetText("")
 end
 
 function RAPLBuildRating(name, scut, isize)
