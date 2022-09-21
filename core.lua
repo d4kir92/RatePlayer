@@ -262,8 +262,10 @@ function InitRatePlayer()
 		RAPLFrame:ClearAllPoints()
 		RAPLFrame:SetPoint( p1, p2, p3, p4, p5 )
 	else
+		RAPLFrame:ClearAllPoints()
 		RAPLFrame:SetPoint( "TOPLEFT", UIParent, "TOPLEFT", 100,-100 )
 	end
+	RAPLFrame:Hide()
 
 	if true then
 		RAPLFrame.bg = RAPLFrame:CreateTexture( "RAPLFRAME.bg", "BACKGROUND" )
