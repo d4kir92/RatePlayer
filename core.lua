@@ -265,7 +265,6 @@ function InitRatePlayer()
 		RAPLFrame:ClearAllPoints()
 		RAPLFrame:SetPoint( "TOPLEFT", UIParent, "TOPLEFT", 100,-100 )
 	end
-	RAPLFrame:Hide()
 
 	if true then
 		RAPLFrame.bg = RAPLFrame:CreateTexture( "RAPLFRAME.bg", "BACKGROUND" )
@@ -414,6 +413,8 @@ function InitRatePlayer()
 	RAPLFrame.textcountcom = RAPLFrame:CreateFontString(nil, "ARTWORK")
 	RAPLFrame.textcountcom:SetFont(STANDARD_TEXT_FONT, 10, "")
 	RAPLFrame.textcountcom:SetText("")
+
+	RAPLFrame:Hide()
 end
 
 function RAPLBuildRating(name, scut, isize)
