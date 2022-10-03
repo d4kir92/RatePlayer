@@ -212,6 +212,11 @@ function RAPLUpdateStars(unit, source)
 				star.texture:SetVertexColor(0.2, 0.2, 0.2)
 			end
 		end
+		if RAPLTAB[name].ratingcom and RAPLTAB[name].ratingcom > 0 then
+			RAPLFrame.textratingcom:SetText(string.format("%.1f", RAPLTAB[name].ratingcom))
+		else
+			RAPLFrame.textcountcom:SetText("")
+		end
 		if RAPLTAB[name].countcom and RAPLTAB[name].countcom > 0 then
 			RAPLFrame.textcountcom:SetText(RAPLTAB[name].countcom)
 		else
