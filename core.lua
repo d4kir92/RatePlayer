@@ -215,7 +215,7 @@ function RAPLUpdateStars(unit, source)
 		if RAPLTAB[name].ratingcom and RAPLTAB[name].ratingcom > 0 then
 			RAPLFrame.textratingcom:SetText(string.format("%.1f", RAPLTAB[name].ratingcom))
 		else
-			RAPLFrame.textcountcom:SetText("")
+			RAPLFrame.textratingcom:SetText("")
 		end
 		if RAPLTAB[name].countcom and RAPLTAB[name].countcom > 0 then
 			RAPLFrame.textcountcom:SetText(RAPLTAB[name].countcom)
