@@ -507,15 +507,17 @@ function RAPLAddRating(tt, name, unit)
 end
 
 -- MOUSEOVER TOOLTIP
-GameTooltip:HookScript("OnTooltipSetUnit", function(self, ...)
-	local name, unit, guid, realm = self:GetUnit()
-	if unit and UnitIsPlayer(unit) then
-        name = RAPLUnitName(unit)
-        if name then
-			RAPLAddRating(self, name, unit)
+if GameTooltip.OnTooltipSetUnit then
+	GameTooltip:HookScript( "OnTooltipSetUnit", function(self, ...)
+		local name, unit, guid, realm = self:GetUnit()
+		if unit and UnitIsPlayer(unit) then
+			name = RAPLUnitName(unit)
+			if name then
+				RAPLAddRating(self, name, unit)
+			end
 		end
-	end
-end)
+	end )
+end
 
 -- LFG
 if LFGListApplicationViewer_UpdateApplicantMember then
