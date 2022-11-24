@@ -582,7 +582,6 @@ f:SetScript("OnEvent", function(self, event, unit, ...)
 	end
 end)
 
-SetCVar( "ScriptErrors", 1 )
 local function OnEventNW(self, event, prefix, ...)
 	if event == "CHAT_MSG_ADDON" then
 		if prefix == RAPLPREFIX then
@@ -618,7 +617,6 @@ local function OnEventNW(self, event, prefix, ...)
 			end
 		end
 	elseif event == "PLAYER_ENTERING_WORLD" then
-		SetCVar( "ScriptErrors", 1 )
 		C_ChatInfo.RegisterAddonMessagePrefix(RAPLPREFIX)
 	end
 end
