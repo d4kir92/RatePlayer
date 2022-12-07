@@ -422,6 +422,8 @@ function RatePlayer:Init()
 	RAPLFrame.textcountcom:SetText("")
 
 	RAPLFrame:Hide()
+
+	RatePlayer:InitRating()
 end
 
 function RatePlayer:BuildRating(name, scut, isize)
@@ -458,7 +460,7 @@ function RatePlayer:BuildRating(name, scut, isize)
 	return rating
 end
 
-function UnitHasRating(name, scut)
+function RatePlayer:UnitHasRating(name, scut)
 	RatePlayer:CheckEntry(name)
 
 	local hasrating = false
@@ -474,7 +476,7 @@ function UnitHasRating(name, scut)
 	return hasrating
 end
 
-function UnitRating(name, scut, isize)
+function RatePlayer:UnitRating(name, scut, isize)
 	RatePlayer:CheckEntry(name)
 	
 	local rating = ""
@@ -492,6 +494,11 @@ function UnitRating(name, scut, isize)
 	end
 	rating = rating .. "|r"
 	return rating
+end
+
+function RatePlayer:InitRating()
+	RAPLTAB.UnitHasRating = RatePlayer.UnitHasRating
+	RAPLTAB.UnitRating = RatePlayer.UnitRating
 end
 
 function RatePlayer:AddRating(tt, name, unit)
@@ -528,8 +535,8 @@ if LFGListApplicationViewer_UpdateApplicantMember then
 		
 		RatePlayer:CheckEntry(name)
 
-		if name and UnitHasRating(name, "com") then
-			member.Name:SetText(UnitRating(name, "com", 12) .. " " .. member.Name:GetText())
+		if name and RatePlayer:UnitHasRating(name, "com") then
+			member.Name:SetText(RatePlayer:UnitRating(name, "com", 12) .. " " .. member.Name:GetText())
 		end
 	end)
 end
