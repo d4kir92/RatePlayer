@@ -1,6 +1,6 @@
 ## Interface: 30401
-## Version: 1.1.21
-## Title: RatePlayer |T135946:16:16:0:0|t by |cff3FC7EBD4KiR |T132115:16:16:0:0|t
+## Version: 1.1.22
+## Title: RatePlayer by |cff3FC7EBD4KiR |T132115:16:16:0:0|t
 ## Notes: RatePlayer
 ## Author: D4KiR
 ## DefaultState: enabled
@@ -8,5 +8,6 @@
 ## SavedVariablesPerCharacter: RAPLTABPC
 ## X-Curse-Project-ID: 472655
 ## X-Wago-ID: PANzVMN4
+## IconTexture: 135946
 
 core.lua
