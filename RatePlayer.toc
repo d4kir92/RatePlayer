@@ -3,7 +3,7 @@
 ## Interface-Wrath: 30403
 ## Interface: 100200
 
-## Version: 1.1.31
+## Version: 1.1.32
 ## Title: RatePlayer by |cff3FC7EBD4KiR |T132115:16:16:0:0|t
 ## Notes: RatePlayer
 ## Author: D4KiR
@@ -13,5 +13,7 @@
 ## X-Curse-Project-ID: 472655
 ## X-Wago-ID: PANzVMN4
 ## IconTexture: 135946
+
+libs\D4Lib\D4Lib.xml
 
 core.lua
