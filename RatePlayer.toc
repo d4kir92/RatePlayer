@@ -1,9 +1,9 @@
 ## Interface-Classic: 11500
 ## Interface-BCC: 20504
 ## Interface-Wrath: 30403
-## Interface: 100200
+## Interface: 100205
 
-## Version: 1.1.36
+## Version: 1.1.37
 ## Title: RatePlayer by |cff3FC7EBD4KiR |T132115:16:16:0:0|t
 ## Notes: RatePlayer
 ## Author: D4KiR
