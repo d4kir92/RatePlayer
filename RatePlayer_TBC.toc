@@ -1,13 +1,15 @@
 ## Interface: 20504
-## Version: 1.1.75
-## Title: RatePlayer |T135946:16:16:0:0|t by |cff3FC7EBD4KiR |T132115:16:16:0:0|t
+## Version: 1.1.76
+## Title: R|cff3FC7EBate|rP|cff3FC7EBlayer|r |T135946:16:16:0:0|t by |cff3FC7EBD4KiR |T132115:16:16:0:0|t
 ## Notes: RatePlayer
 ## Author: D4KiR
+## X-Category: D4KiR
 ## DefaultState: enabled
 ## SavedVariables: RAPLTAB
 ## SavedVariablesPerCharacter: RAPLTABPC
 ## X-Curse-Project-ID: 472655
 ## X-Wago-ID: PANzVMN4
+## IconTexture: 135946
 
 libs\D4Lib\D4Lib.xml
 
