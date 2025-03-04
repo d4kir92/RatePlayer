@@ -1,9 +1,10 @@
 ## Interface: 30403
-## Version: 1.1.77
+## Version: 1.1.78
 ## Title: R|cff3FC7EBate|rP|cff3FC7EBlayer|r |T135946:16:16:0:0|t by |cff3FC7EBD4KiR |T132115:16:16:0:0|t
 ## Notes: RatePlayer
-## Author: D4KiR
-## X-Category: D4KiR
+## Author: D|cff3FC7EB4KiR |T132115:16:16:0:0|t
+## Category: D|cff3FC7EB4KiR |T132115:16:16:0:0|t
+## X-Category: D|cff3FC7EB4KiR |T132115:16:16:0:0|t
 ## DefaultState: enabled
 ## SavedVariables: RAPLTAB
 ## SavedVariablesPerCharacter: RAPLTABPC
