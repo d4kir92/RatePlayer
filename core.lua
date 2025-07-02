@@ -222,11 +222,11 @@ function RatePlayer:Init()
 		CLUB_FINDER_COMMUNITY_TYPE = "Community"
 	end
 
-	RatePlayer:SetVersion(135946, "1.1.82")
+	RatePlayer:SetVersion(135946, "1.1.83")
 	RAPLFrame = CreateFrame("FRAME", "RatePlayer", UIParent)
 	RAPLFrame:SetSize(iconsize * 12, iconsize * 5)
 	RAPLFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 100, -100)
-	RAPLFrame:SetClampedToScreen(true)
+	RatePlayer:SetClampedToScreen(RAPLFrame, true)
 	RAPLFrame:SetMovable(true)
 	RAPLFrame:EnableMouse(true)
 	RAPLFrame:RegisterForDrag("LeftButton")
