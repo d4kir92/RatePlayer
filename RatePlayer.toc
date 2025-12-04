@@ -5,7 +5,7 @@
 ## Interface-Mists: 50502
 ## Interface: 110205, 110207, 120000
 
-## Version: 1.1.88
+## Version: 1.1.89
 ## Title: R|cff3FC7EBate|rP|cff3FC7EBlayer|r |T135946:16:16:0:0|t by |cff3FC7EBD4KiR |T132115:16:16:0:0|t
 ## Notes: RatePlayer
 ## Author: D|cff3FC7EB4KiR |T132115:16:16:0:0|t
