@@ -1,5 +1,5 @@
-## Interface: 20504
-## Version: 1.1.90
+## Interface: 20505
+## Version: 1.1.91
 ## Title: R|cff3FC7EBate|rP|cff3FC7EBlayer|r |T135946:16:16:0:0|t by |cff3FC7EBD4KiR |T132115:16:16:0:0|t
 ## Notes: RatePlayer
 ## Author: D|cff3FC7EB4KiR |T132115:16:16:0:0|t
