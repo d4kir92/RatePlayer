@@ -227,7 +227,7 @@ function RatePlayer:Init()
 		CLUB_FINDER_COMMUNITY_TYPE = "Community"
 	end
 
-	RatePlayer:SetVersion(135946, "1.1.95")
+	RatePlayer:SetVersion(135946, "1.1.96")
 	RAPLFrame = CreateFrame("FRAME", "RatePlayer", UIParent)
 	RAPLFrame:SetSize(iconsize * 12, iconsize * 5)
 	RAPLFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 100, -100)
@@ -765,9 +765,20 @@ function RatePlayer:SetComment(unit, text)
 	end
 end
 
+local editBox = CreateFrame("EditBox", nil, UIParent, "InputBoxTemplate")
+editBox:SetWidth(140)
+editBox:SetHeight(20)
+editBox:SetAutoFocus(false)
+editBox:SetFontObject("GameFontHighlightSmall")
+editBox:SetScript(
+	"OnTextChanged",
+	function(eb, val)
+		RatePlayer:SetComment(eb.unit, eb:GetText())
+	end
+)
+
+editBox:Hide()
 local function SetupRateMenu(ownerRegion, rootDescription, contextData)
-	if rootDescription.RAPL then return end
-	rootDescription.RAPL = true
 	local unit = contextData.unit
 	if unit == nil then return end
 	if not UnitIsPlayer(unit) then return end
@@ -781,27 +792,14 @@ local function SetupRateMenu(ownerRegion, rootDescription, contextData)
 	local inputElement = ratingMenu:CreateButton(" ")
 	inputElement:AddInitializer(
 		function(button, desc, menuu)
-			button:SetWidth(120)
+			button:SetWidth(140)
 			button:SetHeight(20)
-			if ownerRegion.EditBox == nil then
-				ownerRegion.EditBox = CreateFrame("EditBox", nil, button, "InputBoxTemplate")
-				ownerRegion.EditBox:SetWidth(120)
-				ownerRegion.EditBox:SetHeight(20)
-				ownerRegion.EditBox:SetAutoFocus(false)
-				ownerRegion.EditBox:SetFontObject("GameFontHighlightSmall")
-				ownerRegion.EditBox:SetScript(
-					"OnTextChanged",
-					function(eb)
-						RatePlayer:SetComment(unit, eb:GetText())
-					end
-				)
-			end
-
-			ownerRegion.EditBox:SetText(RatePlayer:GetComment(unit) or "")
-			ownerRegion.EditBox:ClearAllPoints()
-			ownerRegion.EditBox:SetParent(button)
-			ownerRegion.EditBox:SetPoint("TOPLEFT", button, "TOPLEFT", 0, 0)
-			ownerRegion.EditBox:Show()
+			editBox.unit = unit
+			editBox:SetText(RatePlayer:GetComment(unit) or "")
+			editBox:ClearAllPoints()
+			editBox:SetParent(button)
+			editBox:SetPoint("TOPLEFT", button, "TOPLEFT", 0, 0)
+			editBox:Show()
 		end
 	)
 
