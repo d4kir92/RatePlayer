@@ -227,7 +227,7 @@ function RatePlayer:Init()
 		CLUB_FINDER_COMMUNITY_TYPE = "Community"
 	end
 
-	RatePlayer:SetVersion(135946, "1.1.97")
+	RatePlayer:SetVersion(135946, "1.1.98")
 	RAPLFrame = CreateFrame("FRAME", "RatePlayer", UIParent)
 	RAPLFrame:SetSize(iconsize * 12, iconsize * 5)
 	RAPLFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 100, -100)
@@ -816,7 +816,7 @@ for _, menuType in ipairs(menuTypes) do
 	)
 end
 
-if TooltipDataProcessor and TooltipDataProcessor.AddTooltipPostCall then
+if TooltipDataProcessor and TooltipDataProcessor.AddTooltipPostCall and RatePlayer:GetWoWBuild() ~= "TBC" then
 	local function OnTooltipSetUnit(tooltip, data)
 		local _, unit = tooltip:GetUnit()
 		if not unit or not UnitIsPlayer(unit) then return end
