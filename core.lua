@@ -227,7 +227,7 @@ function RatePlayer:Init()
 		CLUB_FINDER_COMMUNITY_TYPE = "Community"
 	end
 
-	RatePlayer:SetVersion(135946, "1.1.98")
+	RatePlayer:SetVersion(135946, "1.1.99")
 	RAPLFrame = CreateFrame("FRAME", "RatePlayer", UIParent)
 	RAPLFrame:SetSize(iconsize * 12, iconsize * 5)
 	RAPLFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 100, -100)
@@ -764,7 +764,8 @@ editBox:SetScript(
 editBox:Hide()
 local function SetupRateMenu(ownerRegion, rootDescription, contextData)
 	local unit = contextData.unit
-	if unit == nil then return end
+	if not unit then return end
+	if not UnitExists(unit) then return end
 	if not UnitIsPlayer(unit) then return end
 	local ratingCom = MenuUtil.CreateTitle(string.sub(CLUB_FINDER_COMMUNITY_TYPE, 1, 3) .. ".: " .. RatePlayer:GetStarStringCom(unit))
 	rootDescription:Insert(ratingCom, 2)
@@ -819,7 +820,9 @@ end
 if TooltipDataProcessor and TooltipDataProcessor.AddTooltipPostCall and RatePlayer:GetWoWBuild() ~= "TBC" then
 	local function OnTooltipSetUnit(tooltip, data)
 		local _, unit = tooltip:GetUnit()
-		if not unit or not UnitIsPlayer(unit) then return end
+		if not unit then return end
+		if not UnitExists(unit) then return end
+		if not UnitIsPlayer(unit) then return end
 		GameTooltip_AddBlankLineToTooltip(tooltip)
 		tooltip:AddLine(" ")
 		local comment = RatePlayer:GetComment(unit)
@@ -853,7 +856,7 @@ else
 			"OnTooltipSetUnit",
 			function(self, ...)
 				local name, unit, _, _ = self:GetUnit()
-				if unit and UnitIsPlayer(unit) then
+				if unit and UnitExists(unit) and UnitIsPlayer(unit) then
 					name = RatePlayer:UnitName(unit)
 					if name then
 						RatePlayer:AddRating(self, name, unit)
@@ -865,7 +868,9 @@ else
 
 	local function OnTooltipSetUnitClassic(self)
 		local _, unit = self:GetUnit()
-		if not unit or not UnitIsPlayer(unit) then return end
+		if not unit then return end
+		if not UnitExists(unit) then return end
+		if not UnitIsPlayer(unit) then return end
 		self:AddLine(" ")
 		local comment = RatePlayer:GetComment(unit)
 		if comment and comment ~= "" then
