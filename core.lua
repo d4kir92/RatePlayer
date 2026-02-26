@@ -78,8 +78,12 @@ function RatePlayer:CalculateCOM(name)
 	end
 end
 
+function RatePlayer:IsSafeUnit(unit)
+	return pcall(UnitExists, unit)
+end
+
 function RatePlayer:UpdateStars(unit, source)
-	if UnitExists(unit) and UnitIsPlayer(unit) then
+	if RatePlayer:IsSafeUnit(unit) and UnitExists(unit) and UnitIsPlayer(unit) then
 		if false then
 			RAPLFrame:Show()
 		end
@@ -227,7 +231,7 @@ function RatePlayer:Init()
 		CLUB_FINDER_COMMUNITY_TYPE = "Community"
 	end
 
-	RatePlayer:SetVersion(135946, "1.1.99")
+	RatePlayer:SetVersion(135946, "1.1.100")
 	RAPLFrame = CreateFrame("FRAME", "RatePlayer", UIParent)
 	RAPLFrame:SetSize(iconsize * 12, iconsize * 5)
 	RAPLFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 100, -100)
@@ -522,7 +526,7 @@ f:SetScript(
 			end
 		elseif loaded then
 			if event == "UNIT_TARGET" and unit == "player" then
-				if UnitExists("TARGET") and UnitIsPlayer("TARGET") and UnitFactionGroup("TARGET") == UnitFactionGroup("PLAYER") then
+				if RatePlayer:IsSafeUnit("TARGET") and UnitExists("TARGET") and UnitIsPlayer("TARGET") and UnitFactionGroup("TARGET") == UnitFactionGroup("PLAYER") then
 					local name = RatePlayer:UnitName("TARGET")
 					if name then
 						RatePlayer:CheckEntry(name)
@@ -765,6 +769,7 @@ editBox:Hide()
 local function SetupRateMenu(ownerRegion, rootDescription, contextData)
 	local unit = contextData.unit
 	if not unit then return end
+	if not RatePlayer:IsSafeUnit(unit) then return end
 	if not UnitExists(unit) then return end
 	if not UnitIsPlayer(unit) then return end
 	local ratingCom = MenuUtil.CreateTitle(string.sub(CLUB_FINDER_COMMUNITY_TYPE, 1, 3) .. ".: " .. RatePlayer:GetStarStringCom(unit))
@@ -821,6 +826,7 @@ if TooltipDataProcessor and TooltipDataProcessor.AddTooltipPostCall and RatePlay
 	local function OnTooltipSetUnit(tooltip, data)
 		local _, unit = tooltip:GetUnit()
 		if not unit then return end
+		if not RatePlayer:IsSafeUnit(unit) then return end
 		if not UnitExists(unit) then return end
 		if not UnitIsPlayer(unit) then return end
 		GameTooltip_AddBlankLineToTooltip(tooltip)
@@ -856,7 +862,7 @@ else
 			"OnTooltipSetUnit",
 			function(self, ...)
 				local name, unit, _, _ = self:GetUnit()
-				if unit and UnitExists(unit) and UnitIsPlayer(unit) then
+				if unit and RatePlayer:IsSafeUnit(unit) and UnitExists(unit) and UnitIsPlayer(unit) then
 					name = RatePlayer:UnitName(unit)
 					if name then
 						RatePlayer:AddRating(self, name, unit)
@@ -869,6 +875,7 @@ else
 	local function OnTooltipSetUnitClassic(self)
 		local _, unit = self:GetUnit()
 		if not unit then return end
+		if not RatePlayer:IsSafeUnit(unit) then return end
 		if not UnitExists(unit) then return end
 		if not UnitIsPlayer(unit) then return end
 		self:AddLine(" ")
