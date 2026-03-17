@@ -1,10 +1,19 @@
 ## Interface: 40402
-## Version: 1.1.100
-## Title: R|cff3FC7EBate|rP|cff3FC7EBlayer|r |T135946:16:16:0:0|t by |cff3FC7EBD4KiR |T132115:16:16:0:0|t
+## Version: 1.1.101
+## Title: RatePlayer |T135946:16:16:0:0|t by |cff55d2ffD4KiR |T132115:16:16:0:0|t
 ## Notes: RatePlayer
-## Author: D|cff3FC7EB4KiR |T132115:16:16:0:0|t
-## Category: D|cff3FC7EB4KiR |T132115:16:16:0:0|t
-## X-Category: D|cff3FC7EB4KiR |T132115:16:16:0:0|t
+## Author: D4KiR |T132115:16:16:0:0|t
+## Category: Other
+## Category-deDE: Anderes
+## Category-esES: Otros
+## Category-esMX: Otros
+## Category-frFR: Autre
+## Category-itIT: Altro
+## Category-koKR: 기타
+## Category-ptBR: Outro
+## Category-ruRU: Другое
+## Category-zhCN: 其它
+## Category-zhTW: 其他
 ## DefaultState: enabled
 ## SavedVariables: RAPLTAB
 ## SavedVariablesPerCharacter: RAPLTABPC
