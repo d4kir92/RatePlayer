@@ -5,7 +5,7 @@
 ## Interface-Mists: 50503
 ## Interface: 120001
 
-## Version: 1.1.102
+## Version: 1.1.103
 ## Title: RatePlayer by |cff55d2ffD4KiR |T132115:16:16:0:0|t
 ## Notes: RatePlayer
 ## Author: D4KiR |T132115:16:16:0:0|t

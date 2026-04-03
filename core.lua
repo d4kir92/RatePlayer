@@ -12,7 +12,7 @@ function RatePlayer:CheckEntry(name)
 end
 
 function RatePlayer:UnitName(unit)
-	if issecurevariable("UnitExists", unit) then return "" end
+	if not RatePlayer:IsSafeUnit(unit) then return "" end
 	if UnitExists(unit) then
 		local name, realm = UnitName(unit)
 		if realm and realm ~= "" then
@@ -232,7 +232,7 @@ function RatePlayer:Init()
 		CLUB_FINDER_COMMUNITY_TYPE = "Community"
 	end
 
-	RatePlayer:SetVersion(135946, "1.1.102")
+	RatePlayer:SetVersion(135946, "1.1.103")
 	RAPLFrame = CreateFrame("FRAME", "RatePlayer", UIParent)
 	RAPLFrame:SetSize(iconsize * 12, iconsize * 5)
 	RAPLFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 100, -100)
