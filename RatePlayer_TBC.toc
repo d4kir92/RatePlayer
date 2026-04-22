@@ -1,5 +1,5 @@
 ## Interface: 20505
-## Version: 1.1.107
+## Version: 1.1.108
 ## Title: RatePlayer |T135946:16:16:0:0|t by |cff55d2ffD4KiR |T132115:16:16:0:0|t
 ## Notes: RatePlayer
 ## Author: D4KiR |T132115:16:16:0:0|t

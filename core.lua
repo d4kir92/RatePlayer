@@ -232,7 +232,7 @@ function RatePlayer:Init()
 		CLUB_FINDER_COMMUNITY_TYPE = "Community"
 	end
 
-	RatePlayer:SetVersion(135946, "1.1.107")
+	RatePlayer:SetVersion(135946, "1.1.108")
 	RAPLFrame = CreateFrame("FRAME", "RatePlayer", UIParent)
 	RAPLFrame:SetSize(iconsize * 12, iconsize * 5)
 	RAPLFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 100, -100)
@@ -825,34 +825,38 @@ end
 
 if TooltipDataProcessor and TooltipDataProcessor.AddTooltipPostCall and RatePlayer:GetWoWBuild() ~= "TBC" then
 	local function OnTooltipSetUnit(tooltip, data)
-		local _, unit = tooltip:GetUnit()
-		if not unit then return end
-		if not RatePlayer:IsSafeUnit(unit) then return end
-		if not UnitExists(unit) then return end
-		if not UnitIsPlayer(unit) then return end
-		GameTooltip_AddBlankLineToTooltip(tooltip)
-		tooltip:AddLine(" ")
-		local comment = RatePlayer:GetComment(unit)
-		if comment and comment ~= "" then
-			tooltip:AddDoubleLine(tostring(COMMENT or "Comment") .. ":", RatePlayer:GetComment(unit))
-		end
+		pcall(
+			function()
+				local _, unit = tooltip:GetUnit()
+				if not unit then return end
+				if not RatePlayer:IsSafeUnit(unit) then return end
+				if not UnitExists(unit) then return end
+				if not UnitIsPlayer(unit) then return end
+				GameTooltip_AddBlankLineToTooltip(tooltip)
+				tooltip:AddLine(" ")
+				local comment = RatePlayer:GetComment(unit)
+				if comment and comment ~= "" then
+					tooltip:AddDoubleLine(tostring(COMMENT or "Comment") .. ":", RatePlayer:GetComment(unit))
+				end
 
-		local starString = RatePlayer:GetStarString(unit)
-		if starString then
-			tooltip:AddDoubleLine(tostring(YOU) .. ":", starString)
-		end
+				local starString = RatePlayer:GetStarString(unit)
+				if starString then
+					tooltip:AddDoubleLine(tostring(YOU) .. ":", starString)
+				end
 
-		local starStringGrp = RatePlayer:GetStarStringGrp(unit)
-		if starStringGrp then
-			tooltip:AddDoubleLine(string.sub(CHAT_MSG_PARTY, 1, 3) .. ".: ", starStringGrp)
-		end
+				local starStringGrp = RatePlayer:GetStarStringGrp(unit)
+				if starStringGrp then
+					tooltip:AddDoubleLine(string.sub(CHAT_MSG_PARTY, 1, 3) .. ".: ", starStringGrp)
+				end
 
-		local starStringCom = RatePlayer:GetStarStringCom(unit)
-		if starStringCom then
-			tooltip:AddDoubleLine(string.sub(CLUB_FINDER_COMMUNITY_TYPE, 1, 3) .. ".: ", starStringCom)
-		end
+				local starStringCom = RatePlayer:GetStarStringCom(unit)
+				if starStringCom then
+					tooltip:AddDoubleLine(string.sub(CLUB_FINDER_COMMUNITY_TYPE, 1, 3) .. ".: ", starStringCom)
+				end
 
-		tooltip:Show()
+				tooltip:Show()
+			end
+		)
 	end
 
 	TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit, OnTooltipSetUnit)
@@ -862,13 +866,17 @@ else
 		GameTooltip:HookScript(
 			"OnTooltipSetUnit",
 			function(self, ...)
-				local name, unit, _, _ = self:GetUnit()
-				if unit and RatePlayer:IsSafeUnit(unit) and UnitExists(unit) and UnitIsPlayer(unit) then
-					name = RatePlayer:UnitName(unit)
-					if name then
-						RatePlayer:AddRating(self, name, unit)
+				pcall(
+					function()
+						local name, unit, _, _ = self:GetUnit()
+						if unit and RatePlayer:IsSafeUnit(unit) and UnitExists(unit) and UnitIsPlayer(unit) then
+							name = RatePlayer:UnitName(unit)
+							if name then
+								RatePlayer:AddRating(self, name, unit)
+							end
+						end
 					end
-				end
+				)
 			end
 		)
 	end
