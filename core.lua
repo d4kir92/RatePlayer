@@ -13,18 +13,24 @@ end
 
 function RatePlayer:UnitName(unit)
 	if not RatePlayer:IsSafeUnit(unit) then return "" end
-	if UnitExists(unit) then
-		local name, realm = UnitName(unit)
-		if realm and realm ~= "" then
-			name = name .. "-" .. realm
-		else
-			name = name .. "-" .. GetRealmName()
-		end
+	pcall(
+		function()
+			if UnitExists(unit) then
+				local name, realm = UnitName(unit)
+				if realm and realm ~= "" then
+					name = name .. "-" .. realm
+				else
+					name = name .. "-" .. GetRealmName()
+				end
 
-		return name
-	else
-		return ""
-	end
+				return name
+			else
+				return ""
+			end
+		end
+	)
+
+	return ""
 end
 
 function RatePlayer:CalculateGRP(name)
@@ -232,7 +238,7 @@ function RatePlayer:Init()
 		CLUB_FINDER_COMMUNITY_TYPE = "Community"
 	end
 
-	RatePlayer:SetVersion(135946, "1.1.108")
+	RatePlayer:SetVersion(135946, "1.1.109")
 	RAPLFrame = CreateFrame("FRAME", "RatePlayer", UIParent)
 	RAPLFrame:SetSize(iconsize * 12, iconsize * 5)
 	RAPLFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 100, -100)
