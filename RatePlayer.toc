@@ -1,13 +1,23 @@
 ## Interface-Classic: 11509
 ## Interface-BCC: 20506
-## Interface-Wrath: 30300, 30403
+## Interface-Wrath: 30403
 ## Interface-Cata: 40402
 ## Interface-Mists: 50504
 ## Interface: 120100, 120007
 
-## Version: 1.1.115
+## Version: 1.1.116
 ## Title: RatePlayer by |cff55d2ffD4KiR |T132115:16:16:0:0|t
-## Notes: RatePlayer
+## Notes: You can give other players a rating and add a note
+## Notes-deDE: Du kannst andere Spieler bewerten und eine Notiz hinzufügen
+## Notes-esES: Puedes calificar a otros jugadores y añadir una nota
+## Notes-esMX: Puedes calificar a otros jugadores y añadir una nota
+## Notes-frFR: Vous pouvez noter d'autres joueurs et ajouter une note
+## Notes-itIT: Puoi valutare altri giocatori e aggiungere una nota
+## Notes-koKR: 다른 플레이어에게 평점을 주고 메모를 추가할 수 있습니다
+## Notes-ptBR: Você pode avaliar outros jogadores e adicionar uma nota
+## Notes-ruRU: Вы можете оценивать других игроков и добавлять заметки
+## Notes-zhCN: 你可以给其他玩家评分并添加备注
+## Notes-zhTW: 你可以給其他玩家評分並新增備註
 ## Author: D4KiR |T132115:16:16:0:0|t
 ## Category: Other
 ## Category-deDE: Anderes
