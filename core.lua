@@ -6,32 +6,26 @@ local iconsize = 18
 -- CONFIG
 local loaded = false
 function RatePlayer:CheckEntry(name)
-	if RAPLTAB and not RAPLTAB[name] then
-		RAPLTAB[name] = {}
-	end
+	if RAPLTAB and not RAPLTAB[name] then RAPLTAB[name] = {} end
 end
 
 function RatePlayer:UnitName(unit)
 	if not RatePlayer:IsSafeUnit(unit) then return "" end
-	local ok, result = pcall(
-		function()
-			if UnitExists(unit) then
-				local name, realm = UnitName(unit)
-				if realm and realm ~= "" then
-					name = name .. "-" .. realm
-				else
-					name = name .. "-" .. GetRealmName()
-				end
-
-				return name
+	local ok, result = pcall(function()
+		if UnitExists(unit) then
+			local name, realm = UnitName(unit)
+			if realm and realm ~= "" then
+				name = name .. "-" .. realm
 			else
-				return ""
+				name = name .. "-" .. GetRealmName()
 			end
+			return name
+		else
+			return ""
 		end
-	)
+	end)
 
 	if ok then return result end
-
 	return ""
 end
 
@@ -93,10 +87,7 @@ end
 
 function RatePlayer:UpdateStars(unit, source)
 	if RatePlayer:IsSafeUnit(unit) and UnitExists(unit) and UnitIsPlayer(unit) then
-		if false then
-			RAPLFrame:Show()
-		end
-
+		if false then RAPLFrame:Show() end
 		local name = RatePlayer:UnitName(unit)
 		RatePlayer:CheckEntry(name)
 		if RAPLFrame.texture then
@@ -183,10 +174,7 @@ function RatePlayer:UpdateStars(unit, source)
 		end
 
 		local y = 3
-		if not IsInGroup() then
-			y = 2
-		end
-
+		if not IsInGroup() then y = 2 end
 		y = y + 1
 		for i = 1, 5 do
 			local star = RAPLFrame.starscom[i]
@@ -232,15 +220,9 @@ function RatePlayer:UpdateStars(unit, source)
 end
 
 function RatePlayer:Init()
-	if not RAPLTAB then
-		RAPLTAB = {}
-	end
-
-	if not CLUB_FINDER_COMMUNITY_TYPE then
-		CLUB_FINDER_COMMUNITY_TYPE = "Community"
-	end
-
-	RatePlayer:SetVersion(135946, "1.1.114")
+	if not RAPLTAB then RAPLTAB = {} end
+	if not CLUB_FINDER_COMMUNITY_TYPE then CLUB_FINDER_COMMUNITY_TYPE = "Community" end
+	RatePlayer:SetVersion(135946, "1.1.115")
 	RAPLFrame = CreateFrame("FRAME", "RatePlayer", UIParent)
 	RAPLFrame:SetSize(iconsize * 12, iconsize * 5)
 	RAPLFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 100, -100)
@@ -249,18 +231,15 @@ function RatePlayer:Init()
 	RAPLFrame:EnableMouse(true)
 	RAPLFrame:RegisterForDrag("LeftButton")
 	RAPLFrame:SetScript("OnDragStart", RAPLFrame.StartMoving)
-	RAPLFrame:SetScript(
-		"OnDragStop",
-		function()
-			RAPLFrame:StopMovingOrSizing()
-			local p1, p2, p3, p4, p5 = RAPLFrame:GetPoint()
-			RAPLTAB["RAPLFrame.p1"] = p1
-			RAPLTAB["RAPLFrame.p2"] = p2
-			RAPLTAB["RAPLFrame.p3"] = p3
-			RAPLTAB["RAPLFrame.p4"] = p4
-			RAPLTAB["RAPLFrame.p5"] = p5
-		end
-	)
+	RAPLFrame:SetScript("OnDragStop", function()
+		RAPLFrame:StopMovingOrSizing()
+		local p1, p2, p3, p4, p5 = RAPLFrame:GetPoint()
+		RAPLTAB["RAPLFrame.p1"] = p1
+		RAPLTAB["RAPLFrame.p2"] = p2
+		RAPLTAB["RAPLFrame.p3"] = p3
+		RAPLTAB["RAPLFrame.p4"] = p4
+		RAPLTAB["RAPLFrame.p5"] = p5
+	end)
 
 	if RAPLTAB["RAPLFrame.p1"] then
 		local p1 = RAPLTAB["RAPLFrame.p1"]
@@ -294,30 +273,21 @@ function RatePlayer:Init()
 	RAPLFrame.Comment:SetAutoFocus(false)
 	RAPLFrame.Comment:SetMultiLine(false)
 	RAPLFrame.Comment:SetMaxLetters(200)
-	RAPLFrame.Comment:SetScript(
-		"OnEnterPressed",
-		function(sel)
-			sel:ClearFocus()
-		end
-	)
-
+	RAPLFrame.Comment:SetScript("OnEnterPressed", function(sel) sel:ClearFocus() end)
 	RAPLFrame.Comment.text = ""
-	RAPLFrame.Comment:SetScript(
-		"OnTextChanged",
-		function(sel)
-			if loaded then
-				local text = sel:GetText()
-				local name = RatePlayer:UnitName("TARGET")
-				if name then
-					RatePlayer:CheckEntry(name)
-					if RAPLTAB[name] and RAPLTAB[name].comment ~= text and sel.text ~= text then
-						sel.text = text
-						RAPLTAB[name].comment = text
-					end
+	RAPLFrame.Comment:SetScript("OnTextChanged", function(sel)
+		if loaded then
+			local text = sel:GetText()
+			local name = RatePlayer:UnitName("TARGET")
+			if name then
+				RatePlayer:CheckEntry(name)
+				if RAPLTAB[name] and RAPLTAB[name].comment ~= text and sel.text ~= text then
+					sel.text = text
+					RAPLTAB[name].comment = text
 				end
 			end
 		end
-	)
+	end)
 
 	RAPLFrame.starsown = {}
 	for i = 1, 5 do
@@ -330,22 +300,19 @@ function RatePlayer:Init()
 		star.texture:SetAllPoints(star)
 		star.texture:SetTexture("Interface\\AddOns\\RatePlayer\\media\\star_border")
 		star.texture:SetVertexColor(1, 0, 0)
-		star:SetScript(
-			"OnClick",
-			function(sel, ...)
-				local name = RatePlayer:UnitName("TARGET")
-				if name then
-					RatePlayer:CheckEntry(name)
-					if RAPLTAB[name].ratingown ~= sel.rating then
-						RAPLTAB[name].ratingown = sel.rating
-					else
-						RAPLTAB[name].ratingown = 0
-					end
-
-					RatePlayer:UpdateStars("TARGET", "SET RATING")
+		star:SetScript("OnClick", function(sel, ...)
+			local name = RatePlayer:UnitName("TARGET")
+			if name then
+				RatePlayer:CheckEntry(name)
+				if RAPLTAB[name].ratingown ~= sel.rating then
+					RAPLTAB[name].ratingown = sel.rating
+				else
+					RAPLTAB[name].ratingown = 0
 				end
+
+				RatePlayer:UpdateStars("TARGET", "SET RATING")
 			end
-		)
+		end)
 	end
 
 	RAPLFrame.textratingown = RAPLFrame:CreateFontString(nil, "ARTWORK")
@@ -444,7 +411,6 @@ function RatePlayer:BuildRating(name, scut, isize)
 
 		rating = rating .. " (" .. string.format("%.1f", RAPLTAB[name].ratingcom) .. ") [" .. RAPLTAB[name].countcom .. "]"
 	end
-
 	return rating
 end
 
@@ -460,7 +426,6 @@ function RatePlayer:UnitHasRating(name, scut)
 			hasrating = true
 		end
 	end
-
 	return hasrating
 end
 
@@ -482,7 +447,6 @@ function RatePlayer:UnitRating(name, scut, isize)
 	end
 
 	rating = rating .. "|r"
-
 	return rating
 end
 
@@ -493,31 +457,18 @@ end
 
 function RatePlayer:AddRating(tt, name, unit)
 	RatePlayer:CheckEntry(name)
-	if RAPLTAB[name].ratingown and RAPLTAB[name].ratingown > 0 then
-		tt:AddLine(RATINGS_MENU .. " (" .. YOU .. ")" .. ": " .. RatePlayer:BuildRating(name, "own", 16))
-	end
-
-	if IsInGroup() and RAPLTAB[name].ratinggrp and RAPLTAB[name].ratinggrp > 0 then
-		tt:AddLine(RATINGS_MENU .. " (" .. CHAT_MSG_PARTY .. ")" .. ": " .. RatePlayer:BuildRating(name, "grp", 16))
-	end
-
-	if RAPLTAB[name].ratingcom and RAPLTAB[name].ratingcom > 0 then
-		tt:AddLine(RATINGS_MENU .. " (" .. CLUB_FINDER_COMMUNITY_TYPE .. ")" .. ": " .. RatePlayer:BuildRating(name, "com", 16))
-	end
+	if RAPLTAB[name].ratingown and RAPLTAB[name].ratingown > 0 then tt:AddLine(RATINGS_MENU .. " (" .. YOU .. ")" .. ": " .. RatePlayer:BuildRating(name, "own", 16)) end
+	if IsInGroup() and RAPLTAB[name].ratinggrp and RAPLTAB[name].ratinggrp > 0 then tt:AddLine(RATINGS_MENU .. " (" .. CHAT_MSG_PARTY .. ")" .. ": " .. RatePlayer:BuildRating(name, "grp", 16)) end
+	if RAPLTAB[name].ratingcom and RAPLTAB[name].ratingcom > 0 then tt:AddLine(RATINGS_MENU .. " (" .. CLUB_FINDER_COMMUNITY_TYPE .. ")" .. ": " .. RatePlayer:BuildRating(name, "com", 16)) end
 end
 
 -- LFG
 if LFGListApplicationViewer_UpdateApplicantMember then
-	hooksecurefunc(
-		"LFGListApplicationViewer_UpdateApplicantMember",
-		function(member, id, index)
-			local name, _, _, _, _, _, _, _, _ = C_LFGList.GetApplicantMemberInfo(id, index)
-			RatePlayer:CheckEntry(name)
-			if name and RatePlayer:UnitHasRating(name, "com") then
-				member.Name:SetText(RatePlayer:UnitRating(name, "com", 12) .. " " .. member.Name:GetText())
-			end
-		end
-	)
+	hooksecurefunc("LFGListApplicationViewer_UpdateApplicantMember", function(member, id, index)
+		local name, _, _, _, _, _, _, _, _ = C_LFGList.GetApplicantMemberInfo(id, index)
+		RatePlayer:CheckEntry(name)
+		if name and RatePlayer:UnitHasRating(name, "com") then member.Name:SetText(RatePlayer:UnitRating(name, "com", 12) .. " " .. member.Name:GetText()) end
+	end)
 end
 
 -- NETWORKING PREFIX
@@ -525,64 +476,59 @@ local RAPLPREFIX = "D4RAPL"
 local f = CreateFrame("FRAME")
 f:RegisterEvent("PLAYER_ENTERING_WORLD")
 f:RegisterEvent("UNIT_TARGET")
-f:SetScript(
-	"OnEvent",
-	function(self, event, unit, ...)
-		if event == "PLAYER_ENTERING_WORLD" then
-			if not loaded then
-				loaded = true
-				RatePlayer:Init()
-			end
-		elseif loaded then
-			if event == "UNIT_TARGET" and unit == "player" then
-				if RatePlayer:IsSafeUnit("TARGET") and UnitExists("TARGET") and UnitIsPlayer("TARGET") and UnitFactionGroup("TARGET") == UnitFactionGroup("PLAYER") then
-					local name = RatePlayer:UnitName("TARGET")
-					if name then
-						RatePlayer:CheckEntry(name)
-						RAPLTAB[name].has = false
-						isArena, isRegistered = IsActiveBattlefieldArena()
-						if UnitInParty("TARGET") then
-							if isArena or GetLFGMode and (GetLFGMode(LE_LFG_CATEGORY_LFD) or GetLFGMode(LE_LFG_CATEGORY_RF) or GetLFGMode(LE_LFG_CATEGORY_SCENARIO) or GetLFGMode(LE_LFG_CATEGORY_LFR)) then
-								C_ChatInfo.SendAddonMessage(RAPLPREFIX, "ask:" .. RatePlayer:UnitName("TARGET"), "INSTANCE_CHAT")
-							else
-								C_ChatInfo.SendAddonMessage(RAPLPREFIX, "ask:" .. RatePlayer:UnitName("TARGET"), "PARTY")
-							end
-						elseif UnitInRaid("TARGET") then
-							C_ChatInfo.SendAddonMessage(RAPLPREFIX, "ask:" .. RatePlayer:UnitName("TARGET"), "RAID")
-						elseif GetGuildInfo("PLAYER") then
-							C_ChatInfo.SendAddonMessage(RAPLPREFIX, "ask:" .. RatePlayer:UnitName("TARGET"), "GUILD")
-						end
-
-						if not UnitIsUnit("TARGET", "PLAYER") then
-							if UnitIsConnected("TARGET") then
-								C_ChatInfo.SendAddonMessage(RAPLPREFIX, "has:" .. RatePlayer:UnitName("TARGET"), "WHISPER", RatePlayer:UnitName("TARGET"))
-							end
+f:SetScript("OnEvent", function(self, event, unit, ...)
+	if event == "PLAYER_ENTERING_WORLD" then
+		if not loaded then
+			loaded = true
+			RatePlayer:Init()
+		end
+	elseif loaded then
+		if event == "UNIT_TARGET" and unit == "player" then
+			if RatePlayer:IsSafeUnit("TARGET") and UnitExists("TARGET") and UnitIsPlayer("TARGET") and UnitFactionGroup("TARGET") == UnitFactionGroup("PLAYER") then
+				local name = RatePlayer:UnitName("TARGET")
+				if name then
+					RatePlayer:CheckEntry(name)
+					RAPLTAB[name].has = false
+					isArena, isRegistered = IsActiveBattlefieldArena()
+					if UnitInParty("TARGET") then
+						if isArena or GetLFGMode and (GetLFGMode(LE_LFG_CATEGORY_LFD) or GetLFGMode(LE_LFG_CATEGORY_RF) or GetLFGMode(LE_LFG_CATEGORY_SCENARIO) or GetLFGMode(LE_LFG_CATEGORY_LFR)) then
+							C_ChatInfo.SendAddonMessage(RAPLPREFIX, "ask:" .. RatePlayer:UnitName("TARGET"), "INSTANCE_CHAT")
 						else
-							RAPLTAB[name].has = true
+							C_ChatInfo.SendAddonMessage(RAPLPREFIX, "ask:" .. RatePlayer:UnitName("TARGET"), "PARTY")
 						end
+					elseif UnitInRaid("TARGET") then
+						C_ChatInfo.SendAddonMessage(RAPLPREFIX, "ask:" .. RatePlayer:UnitName("TARGET"), "RAID")
+					elseif GetGuildInfo("PLAYER") then
+						C_ChatInfo.SendAddonMessage(RAPLPREFIX, "ask:" .. RatePlayer:UnitName("TARGET"), "GUILD")
+					end
+
+					if not UnitIsUnit("TARGET", "PLAYER") then
+						if UnitIsConnected("TARGET") then C_ChatInfo.SendAddonMessage(RAPLPREFIX, "has:" .. RatePlayer:UnitName("TARGET"), "WHISPER", RatePlayer:UnitName("TARGET")) end
+					else
+						RAPLTAB[name].has = true
 					end
 				end
-
-				RatePlayer:UpdateStars("TARGET", "UNIT_TARGET")
 			end
+
+			RatePlayer:UpdateStars("TARGET", "UNIT_TARGET")
 		end
 	end
-)
+end)
 
 local function OnEventNW(self, event, prefix, ...)
 	if event == "CHAT_MSG_ADDON" then
 		if prefix == RAPLPREFIX then
 			local msg, channel, sourcename = ...
-			if sourcename == RatePlayer:UnitName("PLAYER") then return end -- IGNORE MESSAGE FROM SELF
+			if sourcename == RatePlayer:UnitName("PLAYER") then -- IGNORE MESSAGE FROM SELF
+				return
+			end
+
 			local pre, name, rating = strsplit(":", msg)
 			if name then
 				RatePlayer:CheckEntry(name)
 				-- Receive, Get Rating from others
 				if pre == "receive" then
-					if not RAPLTAB[name].ratingscom then
-						RAPLTAB[name].ratingscom = {}
-					end
-
+					if not RAPLTAB[name].ratingscom then RAPLTAB[name].ratingscom = {} end
 					RAPLTAB[name].ratingscom[sourcename] = tonumber(rating)
 					RatePlayer:UpdateStars("TARGET", "RECEIVED RATING")
 				elseif pre == "receivehas" then
@@ -633,7 +579,6 @@ end
 
 function RatePlayer:GetResetString()
 	local empty = "|TInterface\\AddOns\\RatePlayer\\media\\star_border:16:16:0:0:64:64:0:64:0:64:100:100:100|t"
-
 	return empty .. empty .. empty .. empty .. empty
 end
 
@@ -648,7 +593,6 @@ function RatePlayer:GetStarStringRating(rating)
 	for i = rating, 4 do
 		icon = icon .. empty
 	end
-
 	return icon
 end
 
@@ -658,10 +602,8 @@ function RatePlayer:CountGrp(unit)
 	if name then
 		RatePlayer:CheckEntry(name)
 		local count = RAPLTAB[name].ratinggrp or 0
-
 		return group .. " " .. count
 	end
-
 	return group .. " " .. "??"
 end
 
@@ -671,42 +613,35 @@ function RatePlayer:CountCom(unit)
 	if name then
 		RatePlayer:CheckEntry(name)
 		local count = RAPLTAB[name].ratingcom or 0
-
 		return group .. " " .. count
 	end
-
 	return group .. " " .. "??"
 end
 
 function RatePlayer:RatingGrp(unit)
 	local name = RatePlayer:UnitName(unit)
 	if name and RAPLTAB[name].ratinggrp and RAPLTAB[name].ratinggrp > 0 then return string.format("%.1f", RAPLTAB[name].ratinggrp or 0) end
-
 	return "??"
 end
 
 function RatePlayer:RatingCom(unit)
 	local name = RatePlayer:UnitName(unit)
 	if name and RAPLTAB[name].ratingcom and RAPLTAB[name].ratingcom > 0 then return string.format("%.1f", RAPLTAB[name].ratingcom or 0) end
-
 	return "??"
 end
 
 function RatePlayer:GetStarString(unit)
 	local rating = RatePlayer:GetStar(unit)
-
 	return RatePlayer:GetStarStringRating(rating)
 end
 
 function RatePlayer:GetStarStringGrp(unit)
 	local rating = RatePlayer:GetStarGrp(unit)
-
 	return RatePlayer:GetStarStringRating(rating)
 end
 
 function RatePlayer:GetStarStringCom(unit)
 	local rating = RatePlayer:GetStarCom(unit)
-
 	return RatePlayer:GetStarStringRating(rating)
 end
 
@@ -714,10 +649,8 @@ function RatePlayer:GetStar(unit)
 	local name = RatePlayer:UnitName(unit)
 	if name then
 		RatePlayer:CheckEntry(name)
-
 		return RAPLTAB[name].ratingown or 0
 	end
-
 	return 0
 end
 
@@ -725,10 +658,8 @@ function RatePlayer:GetStarGrp(unit)
 	local name = RatePlayer:UnitName(unit)
 	if name then
 		RatePlayer:CheckEntry(name)
-
 		return RAPLTAB[name].ratinggrp or 0
 	end
-
 	return 0
 end
 
@@ -736,10 +667,8 @@ function RatePlayer:GetStarCom(unit)
 	local name = RatePlayer:UnitName(unit)
 	if name then
 		RatePlayer:CheckEntry(name)
-
 		return RAPLTAB[name].ratingcom or 0
 	end
-
 	return 0
 end
 
@@ -747,10 +676,8 @@ function RatePlayer:GetComment(unit)
 	local name = RatePlayer:UnitName(unit)
 	if name then
 		RatePlayer:CheckEntry(name)
-
 		return RAPLTAB[name].comment or ""
 	end
-
 	return ""
 end
 
@@ -767,13 +694,7 @@ editBox:SetWidth(140)
 editBox:SetHeight(20)
 editBox:SetAutoFocus(false)
 editBox:SetFontObject("GameFontHighlightSmall")
-editBox:SetScript(
-	"OnTextChanged",
-	function(eb, val)
-		RatePlayer:SetComment(eb.unit, eb:GetText())
-	end
-)
-
+editBox:SetScript("OnTextChanged", function(eb, val) RatePlayer:SetComment(eb.unit, eb:GetText()) end)
 editBox:Hide()
 local function SetupRateMenu(ownerRegion, rootDescription, contextData)
 	local unit = contextData.unit
@@ -789,104 +710,64 @@ local function SetupRateMenu(ownerRegion, rootDescription, contextData)
 	rootDescription:Insert(ratingMenu, 2)
 	local currentRating = RatePlayer:GetStar(unit)
 	local inputElement = ratingMenu:CreateButton(" ")
-	inputElement:AddInitializer(
-		function(button, desc, menuu)
-			button:SetWidth(140)
-			button:SetHeight(20)
-			editBox.unit = unit
-			editBox:SetText(RatePlayer:GetComment(unit) or "")
-			editBox:ClearAllPoints()
-			editBox:SetParent(button)
-			editBox:SetPoint("TOPLEFT", button, "TOPLEFT", 0, 0)
-			editBox:Show()
-		end
-	)
+	inputElement:AddInitializer(function(button, desc, menuu)
+		button:SetWidth(140)
+		button:SetHeight(20)
+		editBox.unit = unit
+		editBox:SetText(RatePlayer:GetComment(unit) or "")
+		editBox:ClearAllPoints()
+		editBox:SetParent(button)
+		editBox:SetPoint("TOPLEFT", button, "TOPLEFT", 0, 0)
+		editBox:Show()
+	end)
 
 	for rating = 5, 1, -1 do
-		ratingMenu:CreateRadio(
-			RatePlayer:GetStarStringRating(rating),
-			function() return currentRating == rating end,
-			function()
-				RatePlayer:SetStar(unit, rating)
-			end
-		)
+		ratingMenu:CreateRadio(RatePlayer:GetStarStringRating(rating), function() return currentRating == rating end, function() RatePlayer:SetStar(unit, rating) end)
 	end
 
-	ratingMenu:CreateRadio(
-		RatePlayer:GetResetString(),
-		function() return currentRating == 0 end,
-		function()
-			RatePlayer:ResetStar(unit)
-		end
-	)
+	ratingMenu:CreateRadio(RatePlayer:GetResetString(), function() return currentRating == 0 end, function() RatePlayer:ResetStar(unit) end)
 end
 
 local menuTypes = {"MENU_UNIT_SELF", "MENU_UNIT_TARGET", "MENU_UNIT_FOCUS", "MENU_UNIT_PARTY", "MENU_UNIT_RAID", "MENU_UNIT_PLAYER",}
 for _, menuType in ipairs(menuTypes) do
-	Menu.ModifyMenu(
-		menuType,
-		function(ownerRegion, rootDescription, contextData)
-			SetupRateMenu(ownerRegion, rootDescription, contextData, "target")
-		end
-	)
+	Menu.ModifyMenu(menuType, function(ownerRegion, rootDescription, contextData) SetupRateMenu(ownerRegion, rootDescription, contextData, "target") end)
 end
 
 if TooltipDataProcessor and TooltipDataProcessor.AddTooltipPostCall and RatePlayer:GetWoWBuild() ~= "TBC" then
 	local function OnTooltipSetUnit(tooltip, data)
-		pcall(
-			function()
-				local _, unit = tooltip:GetUnit()
-				if not unit then return end
-				if not RatePlayer:IsSafeUnit(unit) then return end
-				if not UnitExists(unit) then return end
-				if not UnitIsPlayer(unit) then return end
-				GameTooltip_AddBlankLineToTooltip(tooltip)
-				tooltip:AddLine(" ")
-				local comment = RatePlayer:GetComment(unit)
-				if comment and comment ~= "" then
-					tooltip:AddDoubleLine(tostring(COMMENT or "Comment") .. ":", RatePlayer:GetComment(unit))
-				end
-
-				local starString = RatePlayer:GetStarString(unit)
-				if starString then
-					tooltip:AddDoubleLine(tostring(YOU) .. ":", starString)
-				end
-
-				local starStringGrp = RatePlayer:GetStarStringGrp(unit)
-				if starStringGrp then
-					tooltip:AddDoubleLine(string.sub(CHAT_MSG_PARTY, 1, 3) .. ".: ", starStringGrp)
-				end
-
-				local starStringCom = RatePlayer:GetStarStringCom(unit)
-				if starStringCom then
-					tooltip:AddDoubleLine(string.sub(CLUB_FINDER_COMMUNITY_TYPE, 1, 3) .. ".: ", starStringCom)
-				end
-
-				tooltip:Show()
-			end
-		)
+		pcall(function()
+			local _, unit = tooltip:GetUnit()
+			if not unit then return end
+			if not RatePlayer:IsSafeUnit(unit) then return end
+			if not UnitExists(unit) then return end
+			if not UnitIsPlayer(unit) then return end
+			GameTooltip_AddBlankLineToTooltip(tooltip)
+			tooltip:AddLine(" ")
+			local comment = RatePlayer:GetComment(unit)
+			if comment and comment ~= "" then tooltip:AddDoubleLine(tostring(COMMENT or "Comment") .. ":", RatePlayer:GetComment(unit)) end
+			local starString = RatePlayer:GetStarString(unit)
+			if starString then tooltip:AddDoubleLine(tostring(YOU) .. ":", starString) end
+			local starStringGrp = RatePlayer:GetStarStringGrp(unit)
+			if starStringGrp then tooltip:AddDoubleLine(string.sub(CHAT_MSG_PARTY, 1, 3) .. ".: ", starStringGrp) end
+			local starStringCom = RatePlayer:GetStarStringCom(unit)
+			if starStringCom then tooltip:AddDoubleLine(string.sub(CLUB_FINDER_COMMUNITY_TYPE, 1, 3) .. ".: ", starStringCom) end
+			tooltip:Show()
+		end)
 	end
 
 	TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit, OnTooltipSetUnit)
 else
 	-- MOUSEOVER TOOLTIP
 	if GameTooltip.OnTooltipSetUnit then
-		GameTooltip:HookScript(
-			"OnTooltipSetUnit",
-			function(self, ...)
-				pcall(
-					function()
-						local name, unit, _, _ = self:GetUnit()
-						if unit and RatePlayer:IsSafeUnit(unit) and UnitExists(unit) and UnitIsPlayer(unit) then
-							name = RatePlayer:UnitName(unit)
-							if name then
-								RatePlayer:AddRating(self, name, unit)
-							end
-						end
-					end
-				)
-			end
-		)
+		GameTooltip:HookScript("OnTooltipSetUnit", function(self, ...)
+			pcall(function()
+				local name, unit, _, _ = self:GetUnit()
+				if unit and RatePlayer:IsSafeUnit(unit) and UnitExists(unit) and UnitIsPlayer(unit) then
+					name = RatePlayer:UnitName(unit)
+					if name then RatePlayer:AddRating(self, name, unit) end
+				end
+			end)
+		end)
 	end
 
 	local function OnTooltipSetUnitClassic(self)
@@ -897,24 +778,13 @@ else
 		if not UnitIsPlayer(unit) then return end
 		self:AddLine(" ")
 		local comment = RatePlayer:GetComment(unit)
-		if comment and comment ~= "" then
-			self:AddDoubleLine(tostring(COMMENT or "Comment") .. ":", RatePlayer:GetComment(unit))
-		end
-
+		if comment and comment ~= "" then self:AddDoubleLine(tostring(COMMENT or "Comment") .. ":", RatePlayer:GetComment(unit)) end
 		local starString = RatePlayer:GetStarString(unit)
-		if starString then
-			self:AddDoubleLine(tostring(YOU) .. ":", starString)
-		end
-
+		if starString then self:AddDoubleLine(tostring(YOU) .. ":", starString) end
 		local starStringGrp = RatePlayer:GetStarStringGrp(unit)
-		if starStringGrp then
-			self:AddDoubleLine(string.sub(CHAT_MSG_PARTY, 1, 3) .. " " .. RatePlayer:CountGrp(unit) .. ".:", RatePlayer:RatingGrp(unit) .. " " .. starStringGrp)
-		end
-
+		if starStringGrp then self:AddDoubleLine(string.sub(CHAT_MSG_PARTY, 1, 3) .. " " .. RatePlayer:CountGrp(unit) .. ".:", RatePlayer:RatingGrp(unit) .. " " .. starStringGrp) end
 		local starStringCom = RatePlayer:GetStarStringCom(unit)
-		if starStringCom then
-			self:AddDoubleLine(string.sub(CLUB_FINDER_COMMUNITY_TYPE, 1, 3) .. " " .. RatePlayer:CountCom(unit) .. ".:", RatePlayer:RatingCom(unit) .. " " .. starStringCom)
-		end
+		if starStringCom then self:AddDoubleLine(string.sub(CLUB_FINDER_COMMUNITY_TYPE, 1, 3) .. " " .. RatePlayer:CountCom(unit) .. ".:", RatePlayer:RatingCom(unit) .. " " .. starStringCom) end
 	end
 
 	-- Der klassische Weg für Classic:
