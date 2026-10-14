@@ -1,6 +1,6 @@
 -- By D4KiR
 local _, RatePlayer = ...
-RatePlayer:SetAddonOutput("RatePlayer", 135946)
+RatePlayer:SetAddonOutput()
 -- CONFIG
 local iconsize = 18
 -- CONFIG
@@ -222,7 +222,7 @@ end
 function RatePlayer:Init()
 	if not RAPLTAB then RAPLTAB = {} end
 	if not CLUB_FINDER_COMMUNITY_TYPE then CLUB_FINDER_COMMUNITY_TYPE = "Community" end
-	RatePlayer:SetVersion(135946, "1.1.120")
+	RatePlayer:SetVersion()
 	RAPLFrame = CreateFrame("FRAME", "RatePlayer", UIParent)
 	RAPLFrame:SetSize(iconsize * 12, iconsize * 5)
 	RAPLFrame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 100, -100)
